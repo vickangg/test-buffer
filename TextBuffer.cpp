@@ -142,14 +142,14 @@
   //          Returns true if the position changed, or false if it did
   //          not (i.e. if the cursor was already in the first row).
   bool TextBuffer::up() {
-    if (row > 1) {
-        move_to_row_start();
-        if (backward()) {
-            move_to_row_end();
-            return true;
-        }
-    }
-    return false;
+	if(row > 1){
+		const int current_column = column;
+		move_to_row_start();
+		backward();
+		move_to_column(current_column);
+		return true;
+	}
+	return false;
   }
 
   //MODIFIES: *this
