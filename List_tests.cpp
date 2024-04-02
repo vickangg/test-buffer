@@ -108,7 +108,18 @@ TEST(test_clear) {
 }
 
 TEST(test_copy) {
-    
+    List<int> list;
+    list.push_back(1);
+    list.push_front(2);
+    list.push_back(3);
+    List<int> copy;
+    copy.push_back(11);
+    copy.push_back(20);
+    copy.push_back(25);
+
+    copy = list;
+    ASSERT_TRUE(copy.front() == list.front());
+    ASSERT_TRUE(copy.back() == list.back());
 }
 
 //for Iterator
@@ -165,7 +176,6 @@ TEST(test_equivalence) {
 }
 
 TEST(test_erase) {
-    
 }
 
 TEST(test_insert_1) {
