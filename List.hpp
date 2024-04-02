@@ -6,7 +6,6 @@
  * EECS 280 Project 4
  */
 
-#include <__config>
 #include <iostream>
 #include <iterator> //std::bidirectional_iterator_tag
 #include <cassert>  //assert
