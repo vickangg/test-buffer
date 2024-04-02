@@ -55,7 +55,7 @@ TEST(test_push_back) {
     ASSERT_EQUAL(list.size(), 5);
 }
 
-TEST(test_ront_and_back_1) {
+TEST(test_front_and_back_1) {
     List<int> list;
     list.push_front(33);
     list.push_back(59);

@@ -116,16 +116,16 @@ public:
       delete last_pop;
       num_size--;
     }
-   
-  }
+    }
 
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes all items from the list
   void clear(){
-    int numIterations = num_size;
-    for (int i = 0; i < numIterations; i++){
+    while (!empty()) {
       pop_front();
+      // do we need to assign null values to first and last in list?
     }
+    num_size = 0;
   }
 
   // You should add in a default constructor, destructor, copy constructor,
@@ -134,13 +134,27 @@ public:
   // of the class must be able to create, copy, assign, and destroy Lists.
 
   List(): num_size(0), first(nullptr), last(nullptr) {}
+
+  List(const List &copy) : num_size(0), first(nullptr), last(nullptr) {
+    copy_all(copy);
+  }
+
   ~List(){
     clear();
   }
 
+  List& operator=(const List &compare) {
+    if(this == &compare) { 
+      return *this; 
+      }
+    clear();
+    copy_all(compare);
+    return *this;
+  }
+
 
 private:
-  int num_size;
+  size_t num_size;
   //a private type
   struct Node {
     Node *next;
