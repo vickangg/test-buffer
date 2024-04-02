@@ -55,7 +55,7 @@ TEST(test_push_back) {
     ASSERT_EQUAL(list.size(), 5);
 }
 
-TEST(test_front_and_back_1) {
+TEST(test_ront_and_back_1) {
     List<int> list;
     list.push_front(33);
     list.push_back(59);
@@ -107,7 +107,106 @@ TEST(test_clear) {
     ASSERT_TRUE(list.empty());
 }
 
+TEST(test_copy) {
+    
+}
+
 //for Iterator
 
+TEST(test_incremenet) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    List<int>::Iterator it = list.begin();
+    
+    ASSERT_EQUAL(*it, 1);
+    it++;
+    ASSERT_EQUAL(*it, 2);
+    it++;
+    ASSERT_EQUAL(*it, 3);
+    it++;
+    ASSERT_EQUAL(*it, 4);
+}
+
+TEST(test_decrement) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    List<int>::Iterator it = list.end();
+
+    it--;
+    ASSERT_EQUAL(*it, 4);
+    it--;
+    ASSERT_EQUAL(*it, 3);
+    it--;
+    ASSERT_EQUAL(*it, 2);
+    it--;
+    ASSERT_EQUAL(*it, 1);
+}
+
+TEST(test_equivalence) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    List<int>::Iterator it = list.begin();
+
+    assert(*it == 1);
+    it++;
+    it++;
+    assert(*it != 2);
+    list.insert(list.end(), 5);
+    assert(list.size() != 4);
+}
+
+TEST(test_erase) {
+    
+}
+
+TEST(test_insert_1) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    List<int>::Iterator it = list.begin();
+
+    list.insert(it, 10);
+    ASSERT_EQUAL(list.front(), 10);
+    ASSERT_EQUAL(list.size(), 5);
+}
+
+TEST(test_insert_2) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(3);
+    List<int>::Iterator it = list.begin();
+
+    ASSERT_EQUAL(*it, 1);
+    it++;
+    list.insert(it, 2);
+    ASSERT_EQUAL(*it, 3);
+    it--;
+    ASSERT_EQUAL(*it, 2);
+}
+
+TEST(test_insert_3) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    List<int>::Iterator it = list.end();
+
+    list.insert(it, 10);
+
+    ASSERT_EQUAL(list.back(), 10);
+    ASSERT_EQUAL(list.size(), 5);
+}
 
 TEST_MAIN()
