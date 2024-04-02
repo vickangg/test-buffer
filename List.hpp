@@ -46,41 +46,38 @@ public:
 
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum){
-    Node *push = new Node;
-    push->datum = datum;
+    Node *first_push = new Node;
+    first_push->datum = datum;
     num_size++;
-    // case where the list is initially empty
     if (empty()){
-      first = newFirst;
-      last = newFirst;
-      newFirst->prev = nullptr;
-      newFirst->next = nullptr;
+      first = first_push;
+      last = first_push;
+      first_push->prev = nullptr;
+      first_push->next = nullptr;
     } else {
-      // list is not empty
-      first->prev = newFirst;
-      newFirst->next = first;
-      first = newFirst;
-      newFirst->prev = nullptr;
+      first->prev = first_push;
+      first_push->next = first;
+      first = first_push;
+      first_push->prev = nullptr;
     }
   }
 
   //EFFECTS:  inserts datum into the back of the list
   void push_back(const T &datum){
-    Node *newLast = new Node;
-    newLast->datum = datum;
+    Node *last_push = new Node;
+    last_push->datum = datum;
     num_size++;
-
     if(empty()){
-      first = newLast;
-      last = newLast;
-      newLast->prev = nullptr;
-      newLast->next = nullptr;
+      first = last_push;
+      last = last_push;
+      last_push->prev = nullptr;
+      last_push->next = nullptr;
     }
     else{
-      last->next = newLast;
-      newLast->prev = last;
-      last = newLast;
-      newLast->next = nullptr;
+      last->next = last_push;
+      last_push->prev = last;
+      last = last_push;
+      last_push->next = nullptr;
     }
   }
 
@@ -88,19 +85,17 @@ public:
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the front of the list
   void pop_front(){
+    Node* first_pop = first;
     if (first == last){
-      // there is only 1 node in the list
-      Node* onlyElement = first;
-      delete onlyElement;
+      delete first_pop;
       num_size--;
       first = nullptr;
       last = nullptr;
     }
     else{
-      Node* nodeToRemove = first;
       first = first->next;
       first->prev = nullptr;
-      delete nodeToRemove;
+      delete first_pop;
       num_size--;
     }
   }
@@ -109,19 +104,17 @@ public:
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the back of the list
   void pop_back(){
+    Node* last_pop = last;
     if(first == last){
-      //Only one node in list
-      Node* oneElement = first;
-      delete oneElement;
+      delete last_pop;
       num_size--;
       first = nullptr;
       last = nullptr;
     }
     else{
-      Node* removeLast = last;
       last = last->prev;
       last->next = nullptr;
-      delete removeLast;
+      delete last_pop;
       num_size--;
     }
    
@@ -131,7 +124,7 @@ public:
   //EFFECTS:  removes all items from the list
   void clear(){
     int numIterations = num_size;
-    for (int i = 0; i<numIterations; i++){
+    for (int i = 0; i < numIterations; i++){
       pop_front();
     }
   }
@@ -141,14 +134,13 @@ public:
   // will work correctly without defining these, you should omit them. A user
   // of the class must be able to create, copy, assign, and destroy Lists.
 
-  List(): first(nullptr), last(nullptr), num_size(0) {}
+  List(): num_size(0), first(nullptr), last(nullptr) {}
   ~List(){
     clear();
   }
 
 
 private:
-
   int num_size;
   //a private type
   struct Node {
@@ -160,16 +152,15 @@ private:
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
   void copy_all(const List<T> &other){
-    Node *temp = other.first;
-    while (temp != nullptr){
-      push_back(temp->datum);
-      temp = temp->next;
+    Node *copy = other.first;
+    while (copy->next != nullptr){
+      push_back(copy->datum);
+      copy = copy->next;
     }
   }
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
-
 public:
   ////////////////////////////////////////
   class Iterator {
@@ -316,7 +307,7 @@ public:
   //         element erased by the function call
   Iterator erase(Iterator i){
   Node *temp = i.node_ptr;
-  Iterator element = Iterator(this, temp->next);
+  Iterator single = Iterator(this, temp->next);
 
   if (temp == first) {
     pop_front();
@@ -326,10 +317,10 @@ public:
     temp->prev->next = temp->next;
     temp->next->prev = temp->prev;
     delete temp;
-    sizeList--;
+    num_size--;
   }
 
-  return element;
+  return single;
 
 }
 
@@ -357,7 +348,7 @@ public:
         }
         temp->prev = element;
         
-        sizeList++;
+        num_size++;
         return Iterator(this, element);
     }
 }
